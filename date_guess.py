@@ -23,10 +23,12 @@ def binary_search_guess(low, high, label):
     """
     low～highの範囲で、ユーザの考えている値を二分探索で推測する。
     label: 推測対象の名前（例: '月', '日'）に利用。
-    戻り値: 推測値
+    戻り値: 推測値, 質問回数
     """
+    count = 0
     # ループはlow==highになった時点でbreak
     while low < high:
+        count += 1
         guess = (low + high) // 2
         guess_view = format_two_digits(guess)
         prompt = f"\nあなたの考えた{label}は {guess_view} より後ですか？（yes/no）: "
@@ -40,7 +42,7 @@ def binary_search_guess(low, high, label):
             print("\nyesかnoで回答してください。")
             print("処理を終了します。\n")
             exit(1)
-    return low  # lowとhighが等しくなった状態
+    return low, count
 
 
 def main():
@@ -49,14 +51,17 @@ def main():
     print("あなたの考えた日付を、二分探索を用いて9回以内に的中させます。")
 
     # 月の推測（1～12）
-    month = binary_search_guess(1, 12, "月")
+    month, month_count = binary_search_guess(1, 12, "月")
     month_view = format_two_digits(month)
 
     # 日の推測（1～31）
-    day = binary_search_guess(1, 31, "日")
+    day, day_count = binary_search_guess(1, 31, "日")
     day_view = format_two_digits(day)
 
-    print(f"\nあなたの考えた日付は {month_view}{day_view} です。\n")
+    total_count = month_count + day_count
+
+    print(f"\nあなたの考えた日付は {month_view}{day_view} です。")
+    print(f"質問回数: {total_count}回\n")
 
 
 if __name__ == "__main__":
