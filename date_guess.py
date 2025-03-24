@@ -29,7 +29,7 @@ def binary_search_guess(low, high, label):
     while low < high:
         guess = (low + high) // 2
         guess_view = format_two_digits(guess)
-        prompt = f"あなたの考えた{label}は {guess_view} より後ですか？（yes/no）: "
+        prompt = f"\nあなたの考えた{label}は {guess_view} より後ですか？（yes/no）: "
         answer = get_user_input(prompt)
 
         if answer in ("yes", "y"):
@@ -37,14 +37,14 @@ def binary_search_guess(low, high, label):
         elif answer in ("no", "n"):
             high = guess
         else:
-            print("yesかnoで回答してください。")
-            print("処理を終了します。")
+            print("\nyesかnoで回答してください。")
+            print("処理を終了します。\n")
             exit(1)
     return low  # lowとhighが等しくなった状態
 
 
 def main():
-    print("0101から1231までの間で、あなたの好きな日付をひとつ思い浮かべてください。")
+    print("\n0101から1231までの間で、あなたの好きな日付をひとつ思い浮かべてください。")
     # 二分探索で月は4回（2^4==16）、日は5回（2^5==32）、計9回以内に的中させる
     print("あなたの考えた日付を、二分探索を用いて9回以内に的中させます。")
 
@@ -56,7 +56,7 @@ def main():
     day = binary_search_guess(1, 31, "日")
     day_view = format_two_digits(day)
 
-    print(f"あなたの考えた日付は {month_view}{day_view} です。")
+    print(f"\nあなたの考えた日付は {month_view}{day_view} です。\n")
 
 
 if __name__ == "__main__":
