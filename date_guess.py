@@ -8,68 +8,56 @@
     コマンドラインから実行し、画面の指示に従って操作してください。
 """
 
-print("0101から1231までの間で、あなたの好きな日付をひとつ思い浮かべてください。")
-print("あなたの考えた日付を、二分探索を用いて9回以内に的中させます。")
 
-month_low = 1
-month_high = 12
-day_low = 1
-day_high = 31
-month_guess_view = None
-day_guess_view = None
+def format_two_digits(num):
+    """数字を0埋めして2桁の文字列に変換する"""
+    return f"{num:02d}"
 
-# 月を特定する
-for i in range(4):
-    # month_lowとmonth_highjが同じ場合、ループを抜ける
-    if month_low == month_high:
-        month_guess_view = month_low
-        break
 
-    # 推測値を確認
-    month_guess = (month_low + month_high) // 2
-    if len(str(month_guess)) == 1:
-        month_guess_view = "0" + str(month_guess)
-    else:
-        month_guess_view = month_guess
+def get_user_input(prompt):
+    """プロンプトを表示してユーザの入力を取得する"""
+    return input(prompt).strip().lower()
 
-    print("あなたの考えた日付は", month_guess_view, "より後の月ですか？（yes/no）")
-    answer = input()
 
-    if answer in ("yes", "y"):
-        month_low = month_guess + 1
-    elif answer in ("no", "n"):
-        month_high = month_guess
-    else:
-        print("yesかnoで回答してください。")
-        print("処理を終了します。")
-        exit()
+def binary_search_guess(low, high, label):
+    """
+    low～highの範囲で、ユーザの考えている値を二分探索で推測する。
+    label: 推測対象の名前（例: '月', '日'）に利用。
+    戻り値: 推測値
+    """
+    # ループはlow==highになった時点でbreak
+    while low < high:
+        guess = (low + high) // 2
+        guess_view = format_two_digits(guess)
+        prompt = f"あなたの考えた{label}は {guess_view} より後ですか？（yes/no）: "
+        answer = get_user_input(prompt)
 
-# 日を特定する
-for i in range(5):
-    # day_lowとday_highjが同じ場合、ループを抜ける
-    if day_low == day_high:
-        day_guess_view = day_low
-        break
+        if answer in ("yes", "y"):
+            low = guess + 1
+        elif answer in ("no", "n"):
+            high = guess
+        else:
+            print("yesかnoで回答してください。")
+            print("処理を終了します。")
+            exit(1)
+    return low  # lowとhighが等しくなった状態
 
-    # 推測値を確認
-    day_guess = (day_low + day_high) // 2
-    if len(str(day_guess)) == 1:
-        day_guess_view = "0" + str(day_guess)
-    else:
-        day_guess_view = day_guess
 
-    print(
-        "あなたの考えた日付は",
-        str(month_guess_view) + str(day_guess_view),
-        "より後の日付ですか？（yes/no）",
-    )
-    answer = input()
+def main():
+    print("0101から1231までの間で、あなたの好きな日付をひとつ思い浮かべてください。")
+    # 二分探索で月は4回（2^4==16）、日は5回（2^5==32）、計9回以内に的中させる
+    print("あなたの考えた日付を、二分探索を用いて9回以内に的中させます。")
 
-    if answer in ("yes", "y"):
-        day_low = day_guess + 1
-    elif answer in ("no", "n"):
-        day_high = day_guess
-    else:
-        print("yesかnoで回答してください。")
+    # 月の推測（1～12）
+    month = binary_search_guess(1, 12, "月")
+    month_view = format_two_digits(month)
 
-print("あなたの考えた日付は", str(month_guess_view) + str(day_guess_view), "です")
+    # 日の推測（1～31）
+    day = binary_search_guess(1, 31, "日")
+    day_view = format_two_digits(day)
+
+    print(f"あなたの考えた日付は {month_view}{day_view} です。")
+
+
+if __name__ == "__main__":
+    main()
