@@ -22,26 +22,26 @@ from zoneinfo import ZoneInfo
 from matplotlib.backends.backend_pdf import PdfPages
 
 
-def make_graph_pdf(x_start, x_end, formula_array):
+def make_graph_pdf(x_start, x_end, formulas):
     """グラフを描画したPDFを作成する"""
     # データ作成
     x = np.linspace(x_start, x_end)
-    y_array = []
+    y_list = []
 
-    for f in formula_array:
-        y_array.append(evaluate_formula(x, f))
+    for f in formulas:
+        y_list.append(evaluate_formula(x, f))
 
     # グラフ描画
     plt.figure(figsize=(8, 6))
     p = inflect.engine()
     i = 1
-    for y in y_array:
+    for y in y_list:
         plt.plot(x, y, label=p.ordinal(i))
         i += 1
 
     plt.xlabel("x")
     plt.ylabel("y")
-    plt.title("Function: y = " + ", y = ".join(formula_array))
+    plt.title("Function: y = " + ", y = ".join(formulas))
     plt.legend()
     plt.grid(True)
 
@@ -82,8 +82,8 @@ if __name__ == "__main__":
         sys.exit(1)
 
     length = len(sys.argv)
-    formula_array = []
+    formulas = []
     for i in range(3, length):
-        formula_array.append(sys.argv[i])
+        formulas.append(sys.argv[i])
 
-    make_graph_pdf(x_start, x_end, formula_array)
+    make_graph_pdf(x_start, x_end, formulas)
