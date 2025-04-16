@@ -1,3 +1,7 @@
 # requirements.txt
+numpy
+matplotlib
+inflect
+sympy
 mcp[cli]
 httpx

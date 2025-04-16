@@ -1,0 +1,19 @@
+# .gitignore
+# 出力物
+outputs/*
+!outputs/draw_functions/
+outputs/draw_functions/*
+!outputs/draw_functions/draw_functions20250327T235651.pdf
+*.pdf
+
+# Pythonキャッシュ
+__pycache__/
+*.pyc
+
+# Docker
+.devcontainer/devcontainer.json
+
+# 開発用
+*.log
+.vscode/
+.archive/

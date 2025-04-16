@@ -47,7 +47,7 @@ def make_graph_pdf(x_start, x_end, formulas):
 
     # PDFに保存する
     now = datetime.now(ZoneInfo("Asia/Tokyo")).strftime("%Y%m%dT%H%M%S")
-    file_name = "draw_functions" + str(now) + ".pdf"
+    file_name = "../../outputs/draw_functions/draw_functions" + str(now) + ".pdf"
     with PdfPages(file_name) as pdf:
         pdf.savefig()
     plt.close()
