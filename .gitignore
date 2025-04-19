@@ -4,7 +4,9 @@ outputs/*
 !outputs/draw_functions/
 outputs/draw_functions/*
 !outputs/draw_functions/draw_functions20250327T235651.pdf
-*.pdf
+!outputs/neural_network/
+outputs/neural_network/*
+!outputs/neural_network/external-data_20250419T232548.pdf
 
 # Pythonキャッシュ
 __pycache__/
