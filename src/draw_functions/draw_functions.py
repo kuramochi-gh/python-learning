@@ -20,6 +20,8 @@ import inflect
 from datetime import datetime
 from zoneinfo import ZoneInfo
 from matplotlib.backends.backend_pdf import PdfPages
+import os
+from pathlib import Path
 
 
 def make_graph_pdf(x_start, x_end, formulas):
@@ -46,13 +48,17 @@ def make_graph_pdf(x_start, x_end, formulas):
     plt.grid(True)
 
     # PDFに保存する
+    SCRIPT_DIR = Path(__file__).resolve().parent
+    dir = SCRIPT_DIR.parents[1] / "outputs" / "draw_functions"
+    os.makedirs(dir, exist_ok=True)
     now = datetime.now(ZoneInfo("Asia/Tokyo")).strftime("%Y%m%dT%H%M%S")
-    file_name = "../../outputs/draw_functions/draw_functions" + str(now) + ".pdf"
-    with PdfPages(file_name) as pdf:
+    file_name = "draw_functions" + str(now) + ".pdf"
+    file_path = dir / file_name
+    with PdfPages(file_path) as pdf:
         pdf.savefig()
     plt.close()
 
-    print(file_name, " にグラフが保存されました。")
+    print(file_path, " にグラフが保存されました。")
 
 
 def evaluate_formula(x, formula):
